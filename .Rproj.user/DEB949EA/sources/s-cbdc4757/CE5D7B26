@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1553305983930.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "CE5D7B26",
+    "lastKnownWriteTime" : 1552537684,
+    "last_content_update" : 1552537684,
+    "path" : "~/Dropbox/instafinal/02.data.cleaning/2.word.splits.R",
+    "project_path" : "02.data.cleaning/2.word.splits.R",
+    "properties" : {
+        "cursorPosition" : "186,0",
+        "scrollLine" : "2"
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

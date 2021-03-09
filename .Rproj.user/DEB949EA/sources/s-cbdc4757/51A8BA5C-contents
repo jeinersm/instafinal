@@ -1,0 +1,95 @@
+library(tidyverse)
+library(feather)
+library(cld2)
+library(dplyr)
+library(tidytext)
+
+
+all_posts = read_feather('./01.data.collection/all_posts.feather')
+
+###Create date variables.
+all_posts$weekday = factor(format(as.Date(substr(all_posts$postdate,1,10),format='%Y-%m-%d'),'%A'),
+                           levels= c("Sunday", "Monday", 
+                                     "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"))
+all_posts$hour = as.factor(as.numeric(substr(all_posts$postdate,12,13)))
+all_posts$date = as.Date(substr(all_posts$postdate,1,10),format='%Y-%m-%d')
+
+##remove line breaks
+all_posts$desc = gsub("\r?\n|\r", " ", all_posts$desc)
+all_posts$desc_clean = gsub("\r?\n|\r", " ", all_posts$desc_clean)
+
+##remove users where <80% of their posts with identifiable
+##languages are in english.
+lang_test = all_posts %>%
+  mutate(lang = detect_language(desc_clean)) %>%
+  filter(!is.na(lang)) %>%
+  filter(lang != 'xx-Qaai') %>%
+  mutate(english = ifelse(lang=='en',1,0)) %>%
+  group_by(user) %>%
+  summarize_at('english',mean) %>%
+  filter(english<.8)
+
+all_posts = filter(all_posts, !user %in% lang_test$user)
+
+###Check for inflection point in time trend
+###take user-specific z-score and then average by # of days since posted
+age_test = all_posts %>%
+  group_by(user) %>%
+  mutate(scaled = scale(likes),
+         divfol = likes/followers) %>%
+  group_by(days) %>%
+  summarise_at(c('likes','scaled'),mean)
+
+ggplot(age_test %>% filter(days <21),
+       aes(days,scaled)) + geom_line() +
+  xlab('Days Since Posted') +
+  ylab('Average Z-Score of Likes')
+
+#Looks like majority of likes are received in the first 5 days.
+#Suggest dropping any posts <5 days old.
+
+all_posts = all_posts %>%
+  filter(days > 5)
+
+
+#look at alt text
+# Process the data
+alt_test = all_posts  %>% select(alt) %>%
+  mutate(alt = strsplit(alt, split = ",")) %>%
+  unnest() %>%
+  table() %>%
+  as.data.frame()
+
+
+alt_test$alt<-alt_test$.
+alt_test$.<-NULL
+column="alt"
+
+#alt_posts<-unnest_tokens_(alt_test, "ngram", column, token = "ngrams", n = c(1,2)) #doesn't work on blocks of text less than 2 words-->not helpful
+#alt_posts<-unnest_tokens(alt_test$alt, "text") #doesn't work
+
+##Create scaled versions of likes variable 
+all_posts = all_posts %>%
+  group_by(user) %>%
+  mutate(likes_scaled = scale(likes),
+         likes_bin2 = cut(likes_scaled, c(-Inf, 0, Inf), labels=c('low','high')),
+         likes_bin3 = cut(likes_scaled, c(-Inf, -.25, .25, Inf), labels=c('low','med','high'))) %>%
+  ungroup()
+
+
+##create training/test split
+set.seed(55)
+trainIndex <- caret::createDataPartition(all_posts$user, p = .9, 
+                                  list = FALSE, 
+                                  times = 1)
+all_posts$train = 0
+all_posts$train[trainIndex] = 1
+
+
+##output 
+saveRDS(all_posts, file='./02.data.cleaning/all_posts_clean.rds')
+
+##save training data for neural net
+write.csv(all_posts %>%
+            select(user, url, likes_scaled, likes_bin2, likes_bin3),
+          './02.data.cleaning/all_posts_toPython.csv',row.names=FALSE)

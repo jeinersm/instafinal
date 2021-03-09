@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1553305404752.000,
+    "dirty" : true,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "51A8BA5C",
+    "lastKnownWriteTime" : 1552534362,
+    "last_content_update" : 1553305500010,
+    "path" : "~/Dropbox/instafinal/02.data.cleaning/1.clean.posts.R",
+    "project_path" : "02.data.cleaning/1.clean.posts.R",
+    "properties" : {
+        "cursorPosition" : "47,0",
+        "scrollLine" : "30"
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

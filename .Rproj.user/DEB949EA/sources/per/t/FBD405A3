@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1552599392540.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "204467761",
+    "id" : "FBD405A3",
+    "lastKnownWriteTime" : 1552613006,
+    "last_content_update" : 1552613006839,
+    "path" : "~/Dropbox/instafinal/00.install.packages.R",
+    "project_path" : "00.install.packages.R",
+    "properties" : {
+        "cursorPosition" : "7,53",
+        "scrollLine" : "0"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1553306862351.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "295E237A",
+    "lastKnownWriteTime" : 1553135083,
+    "last_content_update" : 1553135083,
+    "path" : "~/Dropbox/instafinal/03.analysis/2.combine_results.R",
+    "project_path" : "03.analysis/2.combine_results.R",
+    "properties" : {
+        "cursorPosition" : "0,0",
+        "scrollLine" : "0"
+    },
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
